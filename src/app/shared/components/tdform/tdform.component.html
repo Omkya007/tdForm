@@ -13,7 +13,9 @@
                     <label for="email">Email</label>
                     <input type="text" ngModel name="email" class="form-control" id="email">
                 </div>
-                <button type="submit" class="btn btn-sm btn-block btn-info">Sign Up</button>
+                <button 
+                [disabled]="signUp.invalid"
+                type="submit" class="btn btn-sm btn-block btn-info">Sign Up</button>
             </form>
             </div>
         </div>
