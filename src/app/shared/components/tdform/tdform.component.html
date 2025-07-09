@@ -5,20 +5,122 @@
         <div class="card">
             <div class="card-body">
                     <form #signUp="ngForm" (ngSubmit)="onSubmit()">
-                <div class="form-group">
+              <div ngModelGroup="userInfo">
+                  <div class="form-group">
                     <label for="userName">Username</label>
-                    <input type="text" ngModel name="username" class="form-control" id="userName">
+                    <input type="text" #userName="ngModel" required ngModel name="userName" class="form-control" id="userName"
+                    pattern="[a-zA-Z]+"
+                    minlength="8"
+                    maxlength="12"
+                    >
+                        <strong class="text-danger"
+                        *ngIf="userName.touched 
+                        && 
+                        userName.hasError('required')"
+                        >
+                            Username is required field
+                         </strong>
+
+                         <strong class="text-danger" *ngIf="userName.dirty && userName.hasError('pattern')">
+                            Inavlid Pattern
+                         </strong>
+
+                         <strong class="text-danger" *ngIf="userName.dirty && userName.hasError('minlength')">
+                            Min length of username should be 
+                            {{userName.errors?.['minlength'].requiredLength}} and the actual length is {{userName.errors?.['minlength'].actualLength}}
+                         </strong>
+
+                         <strong class="text-danger" *ngIf="maxlengthflag">
+                            Max length of username should be 12
+
+                         </strong>
+                        
                 </div>
+            
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="text" ngModel name="email" class="form-control" id="email">
+                    <input type="text"  #email="ngModel" required ngModel name="email" class="form-control" id="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}">
+                    <strong class="text-danger" *ngIf="email.touched && email.hasError('required')">
+                       Email is required field 
+
+                    </strong>
+                    <strong class="text-danger" *ngIf="email.dirty && email.hasError('pattern')">
+                       Invalid Email
+
+                    </strong>
                 </div>
+              </div>
+
+                <div class="form-group">
+                    <label for="secQuestion">
+                        Secret Question
+                    </label>
+                    <select 
+                    ngModel
+                    #sec="ngModel"
+                    required
+                    name="secQuestion" id="secQuestion" class="form-control">
+                        <!-- <option value="select">Select an option</option> -->
+                        <option value="favBook">favorite Book</option>
+                        <option value="favSport">favorite Sport</option>
+                        
+                    </select>
+                    <strong class="text-danger" *ngIf="sec.touched && sec.hasError('required')">
+                        Secret Question is a mandatory field.
+
+                    </strong>
+                </div>
+
+                <div class="form-group">
+                    <label for="answer">Answer</label>
+                    <textarea name="answer" id="answer" required  ngModel #ans="ngModel" class="form-control" rows="6"></textarea>
+                    <strong class="text-danger " *ngIf="ans.touched && ans.hasError('required')">
+                        Answer is mandatory field
+                    </strong>
+                </div>
+
+                <div class="form-group">
+                    <label for="isSubscribe">
+                        <input type="checkbox" ngModel name="isSubscribe" id="isSubscribe">
+                        subscribe for daily updates
+                    </label>
+                    
+                </div>
+<!-- 
+                <div class="form-group ">
+                    <label for="mocPhone" class="mr-2">
+                        <input type="radio" value="phone"  id="mocPhone" name="mocPhone" ngModel >
+                        Phone
+                    </label>
+                
+
+               
+                    <label for="mocPhone">
+                        <input type="radio" value="email" id="mocPhone" name="mocPhone" ngModel  >
+                       Email
+                    </label>
+                </div> -->
+
+               <div class="form-group">
+                <label [for]="moc.mode" *ngFor="let moc of mocArrr" class="mr-3">
+                    <input type="radio" [value]="moc.mode" name="'moc.mode'" [id]="moc.mode" ngModel>
+                    {{moc.mode}}
+                </label>
+               </div> 
+
                 <button 
-               [disabled]="signUp.invalid"
+              [disabled]="signUp.invalid"
                 type="submit" class="btn btn-sm btn-block btn-info">Sign Up</button>
+
+                <button 
+               (click)="onEdit()"
+                type="button" class="btn btn-sm btn-block btn-info">edit</button>
             </form>
             </div>
         </div>
         </div>
+    </div>
+    <div class="col-md-6">
+        
     </div>
 </div>
